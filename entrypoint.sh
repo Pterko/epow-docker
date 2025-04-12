@@ -22,15 +22,16 @@ if solana config set --url "$RPC_URL" > /dev/null; then
 else
   echo "ERROR: Failed to set Solana RPC URL. Please check the URL and network connectivity."
   # Attempt to display the last few lines of the solana config log if it exists
-  tail -n 5 ~/.config/solana/install/config.yml 2>/dev/null || true
+  tail -n 5 ~/.config/solana/install/config.yml 2>/dev/null || true # This path might need adjustment if Solana config location changes for root
   exit 1
 fi
 
-# Check if the keypair file exists at the expected mount point
-KEYPAIR_PATH="/home/miner/.config/solana/id.json"
+# <<< --- PATH UPDATED HERE --- >>>
+# Check if the keypair file exists at the expected mount point for root
+KEYPAIR_PATH="/root/.config/solana/id.json"
 if [ ! -f "$KEYPAIR_PATH" ]; then
   echo "ERROR: Keypair file not found at $KEYPAIR_PATH."
-  echo "Please ensure you have mounted your id.json file correctly using docker-compose volumes."
+  echo "Please ensure you have mounted your id.json file correctly using docker-compose volumes (mapped to /root/.config/solana)."
   exit 1
 fi
 echo "INFO: Keypair file found at $KEYPAIR_PATH."
